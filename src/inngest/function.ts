@@ -4,18 +4,26 @@ import {
   createNetwork,
   createTool,
   gemini,
+  Tool,
 } from "@inngest/agent-kit";
 import { Sandbox } from "@e2b/code-interpreter";
 
+import { PROMPT } from "@/prompt";
+import { prisma } from "@/lib/db";
+
 import { inngest } from "./client";
 import { getSandbox, lastAssistantTextMessageContext } from "./utils";
-import { PROMPT } from "@/prompt";
 
-export const helloWorld = inngest.createFunction(
+interface AgentState {
+  summary: string;
+  files: { [path: string]: string };
+}
+
+export const codeAgentFn = inngest.createFunction(
   {
-    id: "hello-world",
+    id: "code-agent",
   },
-  { event: "test/hello-world" },
+  { event: "code-agent/run" },
   async function ({ event, step }) {
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("linqvibe-nextjs-test-2");
@@ -23,7 +31,7 @@ export const helloWorld = inngest.createFunction(
       return sandbox.sandboxId;
     });
 
-    const codeAgent = createAgent({
+    const codeAgent = createAgent<AgentState>({
       name: "codeAgent",
       description: "An expert coding agent",
       system: PROMPT,
@@ -68,7 +76,10 @@ export const helloWorld = inngest.createFunction(
           parameters: z.object({
             files: z.array(z.object({ path: z.string(), content: z.string() })),
           }),
-          handler: async ({ files }, { step, network }) => {
+          handler: async (
+            { files },
+            { step, network }: Tool.Options<AgentState>
+          ) => {
             const newFiles = await step?.run(
               "createOrUpdateFiles",
               async () => {
@@ -122,7 +133,6 @@ export const helloWorld = inngest.createFunction(
           },
         }),
       ],
-
       // lifecyles
       lifecycle: {
         onResponse: async ({ result, network }) => {
@@ -139,7 +149,7 @@ export const helloWorld = inngest.createFunction(
       },
     });
 
-    const network = createNetwork({
+    const network = createNetwork<AgentState>({
       name: "coding-agent-network",
       agents: [codeAgent],
       maxIter: 15,
@@ -160,6 +170,37 @@ export const helloWorld = inngest.createFunction(
       const host = sandbox.getHost(3000);
 
       return `https://${host}`;
+    });
+
+    const isError =
+      !result.state.data.summary ||
+      Object.keys(result.state.data.files || {}).length === 0;
+
+    await step.run("save-result", async () => {
+      if (isError) {
+        return prisma.message.create({
+          data: {
+            content: "Something went wrong. Please try again.",
+            role: "ASSISTANT",
+            type: "ERROR",
+          },
+        });
+      }
+
+      return await prisma.message.create({
+        data: {
+          content: result.state.data.summary,
+          role: "ASSISTANT",
+          type: "RESULT",
+          fragment: {
+            create: {
+              sandboxUrl: sandboxUrl,
+              title: "Fragment",
+              files: result.state.data.files,
+            },
+          },
+        },
+      });
     });
 
     return {
