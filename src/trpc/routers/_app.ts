@@ -5,7 +5,7 @@ import { createTRPCRouter } from "../init";
 
 export const appRouter = createTRPCRouter({
   messages: messageRouter,
-  project: projectRouter
+  projects: projectRouter
 });
 
 export type AppRouter = typeof appRouter;
