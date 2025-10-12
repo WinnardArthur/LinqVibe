@@ -3,8 +3,8 @@ import Image from "next/image";
 
 const ShimmerMessages = () => {
   const messages = [
-    "Thinking...",
     "Loading...",
+    "Thinking...",
     "Generating...",
     "Analyzing your request...",
     "Building your website...",
@@ -19,7 +19,7 @@ const ShimmerMessages = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentMessageIndex((prevIndex) => (prevIndex + 1) % messages.length);
-    }, 2000);
+    }, 5000);
 
     return () => clearInterval(interval);
   }, [messages.length]);
