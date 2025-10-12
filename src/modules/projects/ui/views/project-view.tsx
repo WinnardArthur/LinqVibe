@@ -11,6 +11,7 @@ import {
 import { Fragment } from "@/generated/prisma";
 
 import { MessagesContainer } from "../components/messages-container";
+import { FragmentWeb } from "../components/fragment-web";
 import { ProjectHeader } from "./project-header";
 
 interface Props {
@@ -31,6 +32,7 @@ export const ProjectView = ({ projectId }: Props) => {
           <Suspense fallback={<p>Loading project...</p>}>
             <ProjectHeader projectId={projectId} />
           </Suspense>
+          
           <Suspense fallback={<p>Loading messages...</p>}>
             <MessagesContainer
               projectId={projectId}
@@ -43,7 +45,7 @@ export const ProjectView = ({ projectId }: Props) => {
         <ResizableHandle withHandle />
 
         <ResizablePanel defaultSize={65} minSize={50}>
-          Hello
+          {!!activeFragment && <FragmentWeb data={activeFragment} />}
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>
