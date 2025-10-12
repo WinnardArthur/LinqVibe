@@ -40,9 +40,9 @@ export const MessagesContainer = ({
 
   useEffect(() => {
     bottomRef?.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages.length]);
+  }, [messages?.length]);
 
-  const lastMessage = messages[messages.length - 1];
+  const lastMessage = messages[messages?.length - 1];
   const isLastMessageUser = lastMessage.role === "USER";
 
   return (
