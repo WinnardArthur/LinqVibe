@@ -11,13 +11,15 @@ import {
 } from "@/components/ui/resizable";
 
 import { Fragment } from "@/generated/prisma";
+
 import { Button } from "@/components/ui/button";
+import { UserControl } from "@/components/user-control";
+import { FileExporer } from "@/components/file-explorer";
 import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs";
 
 import { ProjectHeader } from "./project-header";
 import { FragmentWeb } from "../components/fragment-web";
 import { MessagesContainer } from "../components/messages-container";
-import { FileExporer } from "@/components/file-explorer";
 
 interface Props {
   projectId: string;
@@ -73,6 +75,8 @@ export const ProjectView = ({ projectId }: Props) => {
                     <CrownIcon /> Upgrade
                   </Link>
                 </Button>
+
+                <UserControl />
               </div>
             </div>
 
