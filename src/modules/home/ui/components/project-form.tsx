@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import z from "zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { ArrowUpIcon, Loader2Icon } from "lucide-react";
@@ -9,11 +10,12 @@ import TextareaAutoSize from "react-textarea-autosize";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useTRPC } from "@/trpc/client";
+import { useClerk } from "@clerk/nextjs";
 
-import { Form, FormField } from "@/components/ui/form";
-import z from "zod";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import { cn } from "@/lib/utils";
+
 import { PROJECT_TEMPLATES } from "../../constants";
 
 const formSchema = z.object({
@@ -25,6 +27,7 @@ const formSchema = z.object({
 
 export const ProjectForm = () => {
   const router = useRouter();
+  const clerk = useClerk();
 
   const [isFocused, setIsFocused] = useState(false);
 
@@ -48,6 +51,10 @@ export const ProjectForm = () => {
       },
       onError: (error) => {
         toast.error(error.message);
+
+        if (error.data?.code === "UNAUTHORIZED") {
+          clerk.openSignIn();
+        }
       },
     })
   );
