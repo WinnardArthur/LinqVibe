@@ -21,6 +21,7 @@ import { Tabs, TabsContent, TabsTrigger, TabsList } from "@/components/ui/tabs";
 import { ProjectHeader } from "./project-header";
 import { FragmentWeb } from "../components/fragment-web";
 import { MessagesContainer } from "../components/messages-container";
+import { ErrorBoundary } from "react-error-boundary";
 
 interface Props {
   projectId: string;
@@ -41,17 +42,21 @@ export const ProjectView = ({ projectId }: Props) => {
           minSize={20}
           className="flex flex-col min-h-0"
         >
-          <Suspense fallback={<p>Loading project...</p>}>
-            <ProjectHeader projectId={projectId} />
-          </Suspense>
+          <ErrorBoundary fallback={<p>Project header error</p>}>
+            <Suspense fallback={<p>Loading project...</p>}>
+              <ProjectHeader projectId={projectId} />
+            </Suspense>
+          </ErrorBoundary>
 
-          <Suspense fallback={<p>Loading messages...</p>}>
-            <MessagesContainer
-              projectId={projectId}
-              activeFragment={activeFragment}
-              setActiveFragment={setActiveFragment}
-            />
-          </Suspense>
+          <ErrorBoundary fallback={<p>Messages error</p>}>
+            <Suspense fallback={<p>Loading messages...</p>}>
+              <MessagesContainer
+                projectId={projectId}
+                activeFragment={activeFragment}
+                setActiveFragment={setActiveFragment}
+              />
+            </Suspense>
+          </ErrorBoundary>
         </ResizablePanel>
 
         <ResizableHandle className="hover:bg-primary transition-colors" />

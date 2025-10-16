@@ -30,7 +30,7 @@ export const codeAgentFn = inngest.createFunction(
   async function ({ event, step }) {
     const sandboxId = await step.run("get-sandbox-id", async () => {
       const sandbox = await Sandbox.create("linqvibe-nextjs-test-2");
-
+      await sandbox.setTimeout(60_000 * 10 * 3);
       return sandbox.sandboxId;
     });
 
@@ -44,8 +44,9 @@ export const codeAgentFn = inngest.createFunction(
             projectId: event.data.projectId,
           },
           orderBy: {
-            createdAt: "asc",
+            createdAt: "desc",
           },
+          take: 5,
         });
 
         for (const message of messages) {
@@ -56,7 +57,7 @@ export const codeAgentFn = inngest.createFunction(
           });
         }
 
-        return formattedMessages;
+        return formattedMessages.reverse();
       }
     );
 
