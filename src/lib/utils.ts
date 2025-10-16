@@ -77,3 +77,4 @@ export function convertFilesToTreeItems(files: {
 
   return Array.isArray(result) ? result : [result];
 }
+
