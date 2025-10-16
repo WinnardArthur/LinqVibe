@@ -144,7 +144,7 @@
   --sidebar-accent: oklch(0.7889 0.0802 359.9375);
   --sidebar-accent-foreground: oklch(0.3394 0.0441 1.7583);
   --sidebar-border: oklch(0.8719 0.0198 302.1690);
-  --sidebar-ring: oklch(0.6104 0.0767 299.7335);
+  --sidebar-ring: rgb(138, 121, 171);
   --font-sans: Geist, sans-serif;
   --font-serif: "Lora", Georgia, serif;
   --font-mono: "Fira Code", "Courier New", monospace;
