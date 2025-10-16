@@ -5,6 +5,7 @@ import { type Message } from "@inngest/agent-kit";
 // Get sandbox
 export async function getSandbox(sandobxId: string) {
   const sandbox = await Sandbox.connect(sandobxId);
+  await sandbox.setTimeout(60_000 * 10 * 3);
 
   return sandbox;
 }
