@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect, useMemo, useCallback } from "react";
+import { Fragment, useState, useMemo, useCallback } from "react";
 import { CopyCheckIcon, CopyIcon } from "lucide-react";
 
 import { Hint } from "./hint";
@@ -132,7 +132,7 @@ export const FileExporer = ({ files }: FileExplorerProps) => {
             setCopied(false);
           }, 2000);
         })
-        .catch((err) => {});
+        .catch(() => {});
     }
   }, [selectedFile, files]);
 
