@@ -75,7 +75,7 @@ export const codeAgentFn = inngest.createFunction(
       name: "codeAgent",
       description: "An expert coding agent",
       system: PROMPT,
-      model: gemini({ model: "gemini-2.5-pro" }),
+      model: gemini({ model: process.env.GEMINI_MODEL || "gemini-2.5-flash" }),
       tools: [
         createTool({
           name: "terminal",
@@ -111,7 +111,7 @@ export const codeAgentFn = inngest.createFunction(
         }),
 
         createTool({
-          name: "createOrUpdateFiles",
+          name: "create_or_update_files",
           description: "Create or update files in the sandbox",
           parameters: z.object({
             files: z.array(z.object({ path: z.string(), content: z.string() })),
@@ -121,7 +121,7 @@ export const codeAgentFn = inngest.createFunction(
             { step, network }: Tool.Options<AgentState>
           ) => {
             const newFiles = await step?.run(
-              "createOrUpdateFiles",
+              "create_or_update_files",
               async () => {
                 try {
                   const updatedFiles = network.state.data.files || {};
@@ -147,13 +147,13 @@ export const codeAgentFn = inngest.createFunction(
         }),
 
         createTool({
-          name: "readFiles",
+          name: "read_files",
           description: "Read files from the sandbox",
           parameters: z.object({
             files: z.array(z.string()),
           }),
           handler: async ({ files }, { step }) => {
-            return await step?.run("readFiles", async () => {
+            return await step?.run("read_files", async () => {
               try {
                 const sandbox = await getSandbox(sandboxId);
 

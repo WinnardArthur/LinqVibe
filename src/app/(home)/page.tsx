@@ -1,6 +1,7 @@
+import Image from "next/image";
+
 import { ProjectForm } from "@/modules/home/ui/components/project-form";
 import { ProjectList } from "@/modules/home/ui/components/projects-list";
-import Image from "next/image";
 
 const Page = () => {
   return (
@@ -17,11 +18,11 @@ const Page = () => {
         </div>
 
         <h1 className="text-2xl md:text-5xl font-bold text-center">
-          Build something with value
+          Build something Impactful
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground text-center">
-          Create apps and websites by chatting with AI
+          Build apps and websites just by chatting with AI
         </p>
 
         <div className="max-w-3xl mx-auto w-full">

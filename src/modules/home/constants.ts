@@ -1,4 +1,24 @@
+import { emoji } from "zod";
+
 export const PROJECT_TEMPLATES = [
+  {
+    emoji: "🚀",
+    title: "Build a landing page",
+    prompt:
+      "Build a landing page with a hero banner (use a nice, dark-mode compatible gradient here), features section, and a call-to-action using mock data and local state. Use dark mode.",
+  },
+  {
+    emoji: "💼",
+    title: "Build a portfolio site",
+    prompt:
+      "Create a personal portfolio website with a clean, modern layout. Include a hero section with a profile image, name, and short bio, followed by sections for projects, skills, and contact information. Each project should have an image, title, brief description, and a link. Use a consistent color palette, clear typography, and visual hierarchy to make the design professional and easy to navigate",
+  },
+  {
+    emoji: "🎁",
+    title: "Build a product launch page",
+    prompt:
+      "Create a modern product launch page with a clear hero section featuring the product name, tagline, and a prominent call-to-action button. Include sections for key features, screenshots or visuals, testimonials, and a pricing or signup area. Use bold typography, balanced spacing, and engaging visuals to create excitement and focus attention on the product’s value",
+  },
   {
     emoji: "🎬",
     title: "Build a Netflix clone",
