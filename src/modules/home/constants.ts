@@ -1,5 +1,3 @@
-import { emoji } from "zod";
-
 export const PROJECT_TEMPLATES = [
   {
     emoji: "🚀",
