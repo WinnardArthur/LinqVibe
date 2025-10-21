@@ -6,6 +6,13 @@
 
 ---
 
+<p align="center">
+  <img src="./public/Screenshot 2025-10-19 073538.png" alt="HomePage" />
+  <img src="./public/Screenshot 2025-10-19 074729.png" alt=""  />
+   <img src="./public/Screenshot 2025-10-19 074801.png" alt=""  />
+   <img src="./public/Screenshot 2025-10-19 074829.png" alt=""  />
+</p>
+
 ## ✨ Overview  
 
 LinqVibe lets users build, preview, and edit complete applications through conversational interactions with an AI agent.  
